@@ -4,7 +4,7 @@ Embedded general purpose, real-time sound recognition demo
 
 ![demo screenshot](sed_demo/assets/piss_logos.png)
 
-Welcome to our project's GitHub repository! Our work focuses on exploring the potential of audio event recognition using convolutional neural networks on edge devices, like Raspberry Pi, aiming to achieve real-time audio analysis and classification.
+Welcome to our project's GitHub repository! [Our work](https://ai4s.surrey.ac.uk/) focuses on exploring the potential of audio event recognition using convolutional neural networks on edge devices, like Raspberry Pi, aiming to achieve real-time audio analysis and classification.
 
 Experience audio event detection on a low-cost device with our DIY project using pre-trained neural networks. Our software allows you to configure an email address to receive notifications when specific sound events are detected. Select from a list of available sound events from available on [this list](https://github.com/gbibbo/pisoundsensing/blob/main/sed_demo/assets/audioset_labels.csv), sourced from [AudioSet](https://research.google.com/audioset/), Google's comprehensive audio dataset. This experiment provides an easy way for users of all skill levels to set up automatic sound event detection. Simply follow the steps to deploy the pre-trained models on your device and start receiving notifications for the events you choose to monitor. Explore this fun and accessible introduction to audio machine learning!
 
