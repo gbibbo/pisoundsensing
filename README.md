@@ -149,7 +149,7 @@ bash setup.sh
 
 * Once the installation is complete, the Raspberry Pi will automatically reboot. This step is crucial to ensure that all changes and updates are applied correctly. 
 
-## Step 4: Accessing the Graphical Interface: 
+# Accessing the Graphical Interface: 
 
 * On a computer connected to the same WiFi network, open a web browser. 
 
