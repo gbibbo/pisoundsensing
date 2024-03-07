@@ -141,13 +141,11 @@ bash setup.sh
 
 Stay attentive to the terminal. You will be asked to confirm the installation of some packages. When this happens, type `Y` and press `Enter` to continue. 
 
- 
-
-## Step 4: Wait for Automatic Reboot 
+#### 7. Wait for Automatic Reboot 
 
 Once the installation is complete, the Raspberry Pi will automatically reboot. This step is crucial to ensure that all changes and updates are applied correctly. 
 
-#### 1. Accessing the Graphical Interface: 
+## Step 4: Accessing the Graphical Interface: 
 
 On a computer connected to the same WiFi network, open a web browser. 
 
