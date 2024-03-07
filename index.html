@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.2"></script>
+    <title>Sound confidence graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div class="header-container">
+    <img src="logo.png" alt="Project logo" style="height: 60px;">
+    <h1>Sound confidence graph</h1>
+    <h2 id="temperatureDisplay">Temperature: --</h2>
+    <button id="toggleBtn">Start</button>
+    <script>
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            const button = document.getElementById('toggleBtn');
+            const currentState = button.textContent;
+            const newState = currentState === 'Start' ? 'Stop' : 'Start';
+
+            fetch('http://piss.local:5000/toggle', {method: 'POST'})
+                .then(response => response.text()) // Asume que la respuesta es texto plano con el nuevo estado
+                .then(text => {
+                    button.textContent = text; // Actualiza el texto del botón con el nuevo estado
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+    <form id="configForm">
+        
+        <label for="emailReceiver">Email Receiver:</label>
+        <input type="email" id="emailReceiver" name="emailReceiver"><br>
+        
+        <label for="tags">Tags (comma separated):</label>
+        <input type="text" id="tags" name="tags"><br>
+        
+        <label for="pvalThreshold">P val threshold (0 to 1):</label>
+        <input type="text" id="pvalThreshold" name="pvalThreshold"><br>       
+<!--
+        <label for="emailSender">Email Sender:</label>
+        <input type="email" id="emailSender" name="emailSender"><br>
+
+        <label for="emailPass">Email Password:</label>
+        <input type="password" id="emailPass" name="emailPass"><br>
+-->
+        <button type="submit">Update Configuration</button>
+    </form>
+    <script>
+        document.getElementById('configForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Obtener los valores de los campos de entrada
+            const emailReceiver = document.getElementById('emailReceiver').value;
+            const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
+            const pvalThreshold = document.getElementById('pvalThreshold').value;
+            // const emailSender = document.getElementById('emailSender').value;
+            // const emailPass = document.getElementById('emailPass').value;
+
+            // Crear un objeto con la configuración
+            const config = { emailReceiver, tags, pvalThreshold}; // emailSender, emailPass
+
+            // Enviar la configuración al servidor Flask
+            fetch('http://piss.local:5000/update_config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(config),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Configuration updated successfully');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</div>
+<canvas id="soundChart"></canvas>
+<script>
+    var socket = new WebSocket("ws://piss.local:5000/echo");
+
+    socket.onopen = function(e) {
+        console.log("Connection established");
+    };
+
+    socket.onmessage = function(event) {
+        console.log(`Data received from server: ${event.data}`);
+    };
+
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            console.log(`Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+        } else {
+            // e.g., server process killed or network down
+            console.log('Connection died');
+        }
+    };
+
+    socket.onerror = function(error) {
+        console.error(`[error] ${error.message}`);
+    };
+
+    async function sendCommand() {
+        const command = state === 'start' ? 'stop' : 'start';
+        try {
+            // Aquí enviamos el comando usando el socket WebSocket
+            socket.send(JSON.stringify({ command: command }));
+            console.log('Command sent:', command);
+            // Actualiza el estado aquí si es necesario
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    let chart;
+    let state = 'stop';
+
+    async function fetchJSONData() {
+        try {
+            const response = await fetch("sound_datalog_short.json");
+            const jsonData = await response.json();
+            return jsonData;
+        } catch (error) {
+            console.error("Error al cargar el archivo JSON:", error);
+            return [];
+        }
+    }
+
+    async function fetchTemperatureData() {
+        try {
+            const response = await fetch("temperature_log.json");
+            const jsonData = await response.json();
+            return jsonData;
+        } catch (error) {
+            console.error("Error al cargar el archivo JSON de temperatura:", error);
+            return [];
+        }
+    }
+
+    function calculateTotalConfidence(jsonData) {
+        const soundStats = {};
+
+        jsonData.forEach(frame => {
+            frame.sounds.forEach(sound => {
+                if (!soundStats[sound.label]) {
+                    soundStats[sound.label] = { sum: 0, count: 0 };
+                }
+                soundStats[sound.label].sum += sound.confidence;
+                soundStats[sound.label].count += 1;
+            });
+        });
+
+        return Object.entries(soundStats).map(([label, stats]) => {
+            return { label, total: stats.sum };
+        });
+    }
+
+    async function plotSoundData() {
+        const jsonData = await fetchJSONData();
+        console.log(jsonData);
+
+        if (jsonData.length === 0) {
+            console.error("No hay datos disponibles para graficar.");
+            return;
+        }
+
+        const last100Data = jsonData.slice(-100);
+        const labels = last100Data.map(data => data.timestamp);
+        const colorPalette = ['#ff1818', '#64B5F6', '#81C784', '#FFF176', '#BA68C8', '#ea7546', '#dbbdea']; // Paleta de colores para los sonidos
+
+        const sortedSoundLabels = calculateTotalConfidence(last100Data).sort((a, b) => b.total - a.total).slice(0, 7).map(entry => entry.label);
+        const datasets = sortedSoundLabels.map((label, index) => {
+            return {
+                label: label,
+                data: last100Data.map(data => {
+                    const sound = data.sounds.find(sound => sound.label === label);
+                    return sound ? sound.confidence : 0;
+                }),
+                borderWidth: 2,
+                borderColor: colorPalette[index % colorPalette.length], // Color del contorno
+                backgroundColor: colorPalette[index % colorPalette.length], // Relleno del punto
+                pointRadius: 3, // Tamaño del punto
+                fill: false // Evita rellenar el área bajo la línea
+            };
+        });
+
+        // Asume que pval_threshold es una variable global o la obtienes de alguna manera
+        const pval_threshold = parseFloat(document.getElementById('pvalThreshold').value); // Asegúrate de obtener el valor actualizado
+
+        // Agrega un nuevo dataset que representa la línea horizontal.
+        datasets.push({
+            label: 'Threshold',
+            data: Array(labels.length).fill(pval_threshold),
+            borderColor: 'rgba(255, 99, 132, 0.5)', // Color de la línea horizontal
+            borderWidth: 2,
+            pointRadius: 0, // No mostrar puntos para la línea horizontal
+            fill: false // Evita rellenar el área bajo la línea
+        });
+
+        const ctx = document.getElementById('soundChart').getContext('2d');
+        if (chart) {
+            chart.destroy();
+        }
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                animation: {
+                    duration: 0
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    }
+
+
+
+    async function updateTemperatureDisplay() {
+        const temperatureData = await fetchTemperatureData();
+        const lastTemperature = temperatureData[temperatureData.length - 1];
+
+        if (lastTemperature) {
+            document.getElementById('temperatureDisplay').textContent = `Temperature: ${lastTemperature.temperature}°C`;
+        } else {
+            document.getElementById('temperatureDisplay').textContent = "Temperature: --";
+        }
+    }
+
+    async function updateChartAndTemperature() {
+        await plotSoundData();
+        await updateTemperatureDisplay();
+        //await fetchState();
+        setTimeout(updateChartAndTemperature, 1000);
+    }
+
+    
+</script>
+<script>
+    window.addEventListener('load', (event) => {
+        fetch('http://piss.local:5000/get_config')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('emailReceiver').value = data.email_receiver;
+            document.getElementById('tags').value = data.tags.join(', ');
+            document.getElementById('pvalThreshold').value = data.pval_threshold;
+            // document.getElementById('emailSender').value = data.email_sender;
+            // document.getElementById('emailPass').value = data.email_sender_pass;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+    updateChartAndTemperature();
+</script>
+</body>
+</html>
+
+
