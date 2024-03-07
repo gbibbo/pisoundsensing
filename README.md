@@ -53,7 +53,7 @@ Set your Country, Language, and Timezone, then click "Next" again.
 
 #### 3. Create User: 
 
-Enter the username “ai4s”. 
+Enter the username `ai4s`. 
 
 It's advisable to change the default password for security purposes. Enter a new password and confirm it, then click "Next". 
 
@@ -82,7 +82,7 @@ After rebooting, you'll be taken to the desktop environment where you can start 
 
 Open the Terminal on your Raspberry Pi. 
 
-Use the following command to download the setup.sh file from the GitHub repository: 
+Use the following command to download the `setup.sh` file from the GitHub repository: 
 
  
 ```bash
@@ -92,7 +92,7 @@ wget https://github.com/gbibbo/pisoundsensing/raw/main/setup.sh
 
 #### 2. Move the File and Prepare for Execution: 
 
-Move the downloaded file to the home/ai4s folder with the command 
+Move the downloaded file to the `home/ai4s` folder with the command 
 ```bash
 mv setup.sh ~/ai4s/ 
 ```
@@ -114,7 +114,7 @@ bash setup.sh
 ```
 #### 6. During the Process: 
 
-Stay attentive to the terminal. You will be asked to confirm the installation of some packages. When this happens, type Y and press Enter to continue. 
+Stay attentive to the terminal. You will be asked to confirm the installation of some packages. When this happens, type `Y` and press `Enter` to continue. 
 
  
 
@@ -126,6 +126,6 @@ Once the installation is complete, the Raspberry Pi will automatically reboot. T
 
 On a computer connected to the same WiFi network, open a web browser. 
 
-Enter the address piss.local in the address bar. 
+Enter the address `piss.local` in the address bar. 
 
 You should now be able to see and access the graphical interface of the device and start using the installed software. 
