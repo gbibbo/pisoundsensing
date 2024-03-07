@@ -1,6 +1,24 @@
 # Pi Sound Sensing
 
-This guide provides detailed steps for preparing, setting up, and installing necessary software on your Raspberry Pi. Follow these steps to ensure a successful installation.
+Embedded general purpose, real-time sound recognition demo:
+
+![demo screenshot](assets/piss.png)
+
+Welcome to our project's GitHub repository! Our work focuses on exploring the potential of audio event recognition using convolutional neural networks on edge devices, like Raspberry Pi, aiming to achieve real-time audio analysis and classification.
+
+The prediction is obtained by applying the audio tagging system on consecutive short audio segments. It is able to perform multiple updates per second on a moderate CPU.
+
+**This is a newer version. The original version can be found at [this branch](https://github.com/yinkalario/General-Purpose-Sound-Recognition-Demo)**
+
+# Authors
+
+This software is based on the AI4S demo created as part of the AI4S project at the University of Surrey. If you use our work, please consider citing us:
+
+[1] Gabriel Bibbó, Arshdeep Singh, Mark D. Plumbley. "Audio Tagging on an Embedded Hardware Platform" arXiv preprint arXiv:2306.09106 (2023).
+
+Paper: https://arxiv.org/abs/2306.09106
+
+# Installation
 
 ## Step 1: Prepare the microSD Card with the Operating System 
 
