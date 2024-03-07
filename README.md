@@ -34,7 +34,7 @@ Paper: https://arxiv.org/abs/2306.09106
 ## Step 1: Prepare the microSD Card with the Operating System 
 
 #### 1. Download the Operating System: 
-* Download the latest version of Raspberry Pi OS (64-bit) with desktop from the official website: [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/)
+* Download the latest version of Raspberry Pi OS (64-bit) with desktop from the official website: [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/).
 
 #### 2. Download Imaging Software: 
 * Download and install the [Raspberry Pi Imager](https://www.raspberrypi.org/software/) software.
