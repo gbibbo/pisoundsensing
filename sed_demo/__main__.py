@@ -22,8 +22,6 @@ import json
 import re
 import time
 
-from .tts import say
-
 import pyttsx3
 
 import smtplib
