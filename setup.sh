@@ -52,17 +52,16 @@ sudo chmod -R 775 /var/www/html/
 mkdir -p ~/.config/autostart
 
 # Copiar y dar permisos de ejecución a los scripts
-# sudo cp temperature.py run_sed_demo.sh flask_app.py /usr/local/bin/
-sudo chown ai4s:ai4s /home/ai4s/ai4s-embedded/temperature.py /home/ai4s/ai4s-embedded/run_sed_demo.sh /home/ai4s/ai4s-embedded/flask_app.py
-sudo chmod +x /home/ai4s/ai4s-embedded/temperature.py /home/ai4s/ai4s-embedded/run_sed_demo.sh /home/ai4s/ai4s-embedded/flask_app.py
+# sudo cp temperature.py run_sed_demo.sh /usr/local/bin/
+sudo chown ai4s:ai4s /home/ai4s/ai4s-embedded/temperature.py /home/ai4s/ai4s-embedded/run_sed_demo.sh
+sudo chmod +x /home/ai4s/ai4s-embedded/temperature.py /home/ai4s/ai4s-embedded/run_sed_demo.sh
 
 # Crear archivos de autoinicio
 echo -e "[Desktop Entry]\nType=Application\nName=Run Temperature\nExec=python3 /home/ai4s/ai4s-embedded/temperature.py" > ~/.config/autostart/run_temperature.desktop
 echo -e "[Desktop Entry]\nType=Application\nName=Run sed_demo\nExec=/home/ai4s/ai4s-embedded/run_sed_demo.sh" > ~/.config/autostart/run_sed_demo.desktop
-echo -e "[Desktop Entry]\nType=Application\nName=Run Flask\nExec=python3 /home/ai4s/ai4s-embedded/flask_app.py" > ~/.config/autostart/run_flask.desktop
 
 # Ajustar la propiedad y permisos de los archivos de autoinicio
-sudo chown ai4s:ai4s ~/.config/autostart/run_temperature.desktop ~/.config/autostart/run_sed_demo.desktop ~/.config/autostart/run_flask.desktop
+sudo chown ai4s:ai4s ~/.config/autostart/run_temperature.desktop ~/.config/autostart/run_sed_demo.desktop
 sudo chmod 644 ~/.config/autostart/*.desktop
 
 # Mover el logo a la carpeta pública y ajustar permisos
@@ -74,6 +73,9 @@ sudo chmod 644 /var/www/html/logo.png
 touch /home/ai4s/ai4s-embedded/state.json
 sudo chown ai4s:ai4s /home/ai4s/ai4s-embedded/state.json
 sudo chmod 666 /home/ai4s/ai4s-embedded/state.json
+
+echo "piss" | sudo tee /etc/hostname
+sudo sed -i 's/127.0.1.1.*/127.0.1.1\tpiss/g' /etc/hosts
 
 # Reiniciar el sistema
 sudo reboot
