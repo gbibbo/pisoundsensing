@@ -18,6 +18,13 @@ This software is based on the AI4S demo created as part of the AI4S project at t
 
 Paper: https://arxiv.org/abs/2306.09106
 
+
+## Hardware Prerequisites:
+
+* Raspberry Pi 4 or higher.
+* Micro SD card, 32GB or higher.
+* Plug-and-play USB microphone, [like this one](https://thepihut.com/products/mini-usb-microphone)
+
 # Installation
 
 ## Step 1: Prepare the microSD Card with the Operating System 
