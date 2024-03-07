@@ -65,7 +65,7 @@ sudo chown ai4s:ai4s ~/.config/autostart/run_temperature.desktop ~/.config/autos
 sudo chmod 644 ~/.config/autostart/*.desktop
 
 # Mover el logo a la carpeta pública y ajustar permisos
-sudo cp assets/logo.png /var/www/html/logo.png
+sudo cp sed_demo/assets/logo.png /var/www/html/logo.png
 sudo chown ai4s:ai4s /var/www/html/logo.png
 sudo chmod 644 /var/www/html/logo.png
 
