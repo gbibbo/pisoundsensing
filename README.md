@@ -2,7 +2,7 @@
 
 Embedded general purpose, real-time sound recognition demo:
 
-![demo screenshot](assets/piss.png)
+![demo screenshot](sed_demo/assets/piss.png)
 
 Welcome to our project's GitHub repository! Our work focuses on exploring the potential of audio event recognition using convolutional neural networks on edge devices, like Raspberry Pi, aiming to achieve real-time audio analysis and classification.
 
