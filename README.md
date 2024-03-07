@@ -10,7 +10,7 @@ The prediction is obtained by applying the audio tagging system on consecutive s
 
 **This is a newer version. The original version can be found at [this branch](https://github.com/yinkalario/General-Purpose-Sound-Recognition-Demo)**
 
-# Authors
+## Authors
 
 This software is based on the AI4S demo created as part of the AI4S project at the University of Surrey. If you use our work, please consider citing us:
 
