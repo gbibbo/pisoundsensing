@@ -4,7 +4,7 @@ This guide provides detailed steps for preparing, setting up, and installing nec
 
 ## Step 1: Prepare the microSD Card with the Operating System 
 
-### Download the Operating System: 
+#### Download the Operating System: 
 Download the latest version of Raspberry Pi OS (64-bit) with desktop from the official website: [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/)
 
 
