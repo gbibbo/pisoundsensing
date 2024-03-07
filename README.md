@@ -25,7 +25,7 @@ Paper: https://arxiv.org/abs/2306.09106
 
 * Raspberry Pi 4 or higher.
 * Micro SD card, 32GB or higher.
-* Plug-and-play USB microphone, [like this one](https://thepihut.com/products/mini-usb-microphone)
+* Plug-and-play [USB microphone](https://thepihut.com/products/mini-usb-microphone)
 * (Recommended): [fan and heatsink](https://thepihut.com/products/active-cooler-for-raspberry-pi-5)
 
 
