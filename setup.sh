@@ -21,10 +21,10 @@ pip3 install librosa --break-system-packages
 pip3 install pyttsx3 --break-system-packages
 
 # Clonar el repositorio de GitHub
-git clone https://github.com/gbibbo/ai4s-embedded.git
+git clone https://github.com/gbibbo/pisoundsensing.git
 
 # Cambiar al directorio clonado
-cd ai4s-embedded
+cd pisoundsensing
 
 # Actualizar pip y setuptools
 pip3 install --upgrade pip setuptools wheel
@@ -53,12 +53,12 @@ mkdir -p ~/.config/autostart
 
 # Copiar y dar permisos de ejecución a los scripts
 # sudo cp temperature.py run_sed_demo.sh /usr/local/bin/
-sudo chown ai4s:ai4s /home/ai4s/ai4s-embedded/temperature.py /home/ai4s/ai4s-embedded/run_sed_demo.sh
-sudo chmod +x /home/ai4s/ai4s-embedded/temperature.py /home/ai4s/ai4s-embedded/run_sed_demo.sh
+sudo chown ai4s:ai4s /home/ai4s/pisoundsensing/temperature.py /home/ai4s/pisoundsensing/run_sed_demo.sh
+sudo chmod +x /home/ai4s/pisoundsensing/temperature.py /home/ai4s/pisoundsensing/run_sed_demo.sh
 
 # Crear archivos de autoinicio
-echo -e "[Desktop Entry]\nType=Application\nName=Run Temperature\nExec=python3 /home/ai4s/ai4s-embedded/temperature.py" > ~/.config/autostart/run_temperature.desktop
-echo -e "[Desktop Entry]\nType=Application\nName=Run sed_demo\nExec=/home/ai4s/ai4s-embedded/run_sed_demo.sh" > ~/.config/autostart/run_sed_demo.desktop
+echo -e "[Desktop Entry]\nType=Application\nName=Run Temperature\nExec=python3 /home/ai4s/pisoundsensing/temperature.py" > ~/.config/autostart/run_temperature.desktop
+echo -e "[Desktop Entry]\nType=Application\nName=Run sed_demo\nExec=/home/ai4s/pisoundsensing/run_sed_demo.sh" > ~/.config/autostart/run_sed_demo.desktop
 
 # Ajustar la propiedad y permisos de los archivos de autoinicio
 sudo chown ai4s:ai4s ~/.config/autostart/run_temperature.desktop ~/.config/autostart/run_sed_demo.desktop
@@ -70,12 +70,13 @@ sudo chown ai4s:ai4s /var/www/html/logo.png
 sudo chmod 644 /var/www/html/logo.png
 
 # Asegurarse de que el archivo state.json y otros archivos generados sean editables
-touch /home/ai4s/ai4s-embedded/state.json
-sudo chown ai4s:ai4s /home/ai4s/ai4s-embedded/state.json
-sudo chmod 666 /home/ai4s/ai4s-embedded/state.json
+touch /home/ai4s/pisoundsensing/state.json
+sudo chown ai4s:ai4s /home/ai4s/pisoundsensing/state.json
+sudo chmod 666 /home/ai4s/pisoundsensing/state.json
 
 echo "piss" | sudo tee /etc/hostname
 sudo sed -i 's/127.0.1.1.*/127.0.1.1\tpiss/g' /etc/hosts
 
 # Reiniciar el sistema
 sudo reboot
+
