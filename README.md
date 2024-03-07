@@ -1,6 +1,6 @@
 # Pi Sound Sensing
 
-Embedded general purpose, real-time sound recognition demo:
+Embedded general purpose, real-time sound recognition demo
 
 ![demo screenshot](sed_demo/assets/piss.png)
 
