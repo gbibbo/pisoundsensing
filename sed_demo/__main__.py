@@ -217,7 +217,6 @@ class DemoApp(DemoFrontend):
             print(f"Failed to send email: {e}")
 
     def inference_loop(self):
-        # Delete the sound_datalog.json file at the beginning of each iteration
         while self.is_running():
             dl_inference = self.inference(self.audiostream.read())
             top_preds = self.tracker(dl_inference, self.top_k)
@@ -292,28 +291,36 @@ class DemoApp(DemoFrontend):
 # ##############################################################################
 @dataclass
 class ConfDef:
+    """
+    Check ``DemoApp`` docstring for details on the parameters. Defaults should
+    work reasonably well out of the box.
+    """
     ALL_LABELS_PATH: str = AUDIOSET_LABELS_PATH
     SUBSET_LABELS_PATH: Optional[str] = None
     MODEL_PATH: str = os.path.join(
         "models", "Cnn9_GMP_64x64_300000_iterations_mAP=0.37.pth")
+    #
     SAMPLERATE: int = 32000
     AUDIO_CHUNK_LENGTH: int = 1024
     RINGBUFFER_LENGTH: int = int(32000 * 2)
+    #
     MODEL_WINSIZE: int = 1024
     STFT_HOPSIZE: int = 512
     STFT_WINDOW: str = "hann"
     N_MELS: int = 64
     MEL_FMIN: int = 50
     MEL_FMAX: int = 14000
+    # frontend
     TOP_K: int = 6
     TITLE_FONTSIZE: int = 28
     TABLE_FONTSIZE: int = 22
     
-
+# demo inistance creation
 app = Flask(__name__)
 CORS(app)
 
 file_path = '/var/www/html/sound_datalog.json'
+short_file_path = '/var/www/html/sound_datalog_short.json'
 CONF = OmegaConf.structured(ConfDef())
 cli_conf = OmegaConf.from_cli()
 CONF = OmegaConf.merge(CONF, cli_conf)
@@ -334,9 +341,15 @@ demo = DemoApp(
     CONF.MODEL_WINSIZE, CONF.STFT_HOPSIZE, CONF.STFT_WINDOW,
     CONF.N_MELS, CONF.MEL_FMIN, CONF.MEL_FMAX,
     CONF.TOP_K, CONF.TITLE_FONTSIZE, CONF.TABLE_FONTSIZE)   
-    
+
+# Delete the sound_datalog.json and sound_datalog_short.json file at the beginning
 if os.path.exists(file_path):
     os.remove(file_path)
+if os.path.exists(short_file_path):
+    os.remove(short_file_path)
+
+# Flask server functions, which allow interacting with the web interface 
+# located at /var/www/html/index.html
 
 @app.route('/toggle', methods=['POST'])
 def toggle():
@@ -372,6 +385,9 @@ def update_config():
 def run_flask_app():
     app.run(host='0.0.0.0', port=5000)
 
+# ##############################################################################
+# # MAIN ROUTINE
+# ##############################################################################
 if __name__ == '__main__':
     
     Thread(target=run_flask_app).start()
