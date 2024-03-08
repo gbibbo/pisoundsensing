@@ -27,9 +27,9 @@
             const newState = currentState === 'Start' ? 'Stop' : 'Start';
 
             fetch('http://piss.local:5000/toggle', {method: 'POST'})
-                .then(response => response.text()) // Asume que la respuesta es texto plano con el nuevo estado
+                .then(response => response.text())
                 .then(text => {
-                    button.textContent = text; // Actualiza el texto del botón con el nuevo estado
+                    button.textContent = text;
                 })
                 .catch(error => console.error('Error:', error));
         });
@@ -57,17 +57,17 @@
         document.getElementById('configForm').addEventListener('submit', function(event) {
             event.preventDefault();
             
-            // Obtener los valores de los campos de entrada
+            // Get the values of the input fields
             const emailReceiver = document.getElementById('emailReceiver').value;
             const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
             const pvalThreshold = document.getElementById('pvalThreshold').value;
             // const emailSender = document.getElementById('emailSender').value;
             // const emailPass = document.getElementById('emailPass').value;
 
-            // Crear un objeto con la configuración
+            // Create an object with the configuration
             const config = { emailReceiver, tags, pvalThreshold}; // emailSender, emailPass
 
-            // Enviar la configuración al servidor Flask
+            // Send the configuration to the Flask server
             fetch('http://piss.local:5000/update_config', {
                 method: 'POST',
                 headers: {
@@ -112,10 +112,9 @@
     async function sendCommand() {
         const command = state === 'start' ? 'stop' : 'start';
         try {
-            // Aquí enviamos el comando usando el socket WebSocket
+            // Here we send the command using the WebSocket socket
             socket.send(JSON.stringify({ command: command }));
             console.log('Command sent:', command);
-            // Actualiza el estado aquí si es necesario
         } catch (error) {
             console.error('Error:', error);
         }
@@ -129,7 +128,7 @@
             const jsonData = await response.json();
             return jsonData;
         } catch (error) {
-            console.error("Error al cargar el archivo JSON:", error);
+            console.error("Error loading JSON file:", error);
             return [];
         }
     }
@@ -140,7 +139,7 @@
             const jsonData = await response.json();
             return jsonData;
         } catch (error) {
-            console.error("Error al cargar el archivo JSON de temperatura:", error);
+            console.error("Error loading temperature JSON file:", error);
             return [];
         }
     }
@@ -168,13 +167,13 @@
         console.log(jsonData);
 
         if (jsonData.length === 0) {
-            console.error("No hay datos disponibles para graficar.");
+            console.error("No data available for plotting.");
             return;
         }
 
         const last100Data = jsonData.slice(-100);
         const labels = last100Data.map(data => data.timestamp);
-        const colorPalette = ['#ff1818', '#64B5F6', '#81C784', '#FFF176', '#BA68C8', '#ea7546', '#dbbdea']; // Paleta de colores para los sonidos
+        const colorPalette = ['#ff1818', '#64B5F6', '#81C784', '#FFF176', '#BA68C8', '#ea7546', '#dbbdea']; // Color palette for sounds
 
         const sortedSoundLabels = calculateTotalConfidence(last100Data).sort((a, b) => b.total - a.total).slice(0, 7).map(entry => entry.label);
         const datasets = sortedSoundLabels.map((label, index) => {
@@ -185,24 +184,23 @@
                     return sound ? sound.confidence : 0;
                 }),
                 borderWidth: 2,
-                borderColor: colorPalette[index % colorPalette.length], // Color del contorno
-                backgroundColor: colorPalette[index % colorPalette.length], // Relleno del punto
-                pointRadius: 3, // Tamaño del punto
-                fill: false // Evita rellenar el área bajo la línea
+                borderColor: colorPalette[index % colorPalette.length], // Contour color
+                backgroundColor: colorPalette[index % colorPalette.length], // Dot filling
+                pointRadius: 3, // Dot size
+                fill: false // Avoid filling in the area below the line
             };
         });
 
-        // Asume que pval_threshold es una variable global o la obtienes de alguna manera
         const pval_threshold = parseFloat(document.getElementById('pvalThreshold').value); // Asegúrate de obtener el valor actualizado
 
-        // Agrega un nuevo dataset que representa la línea horizontal.
+        // Adds a new dataset representing the horizontal line.
         datasets.push({
             label: 'Threshold',
             data: Array(labels.length).fill(pval_threshold),
-            borderColor: 'rgba(255, 99, 132, 0.5)', // Color de la línea horizontal
+            borderColor: 'rgba(255, 99, 132, 0.5)', // Horizontal line color
             borderWidth: 2,
-            pointRadius: 0, // No mostrar puntos para la línea horizontal
-            fill: false // Evita rellenar el área bajo la línea
+            pointRadius: 0, // Do not show dots for the horizontal line
+            fill: false // Avoid filling in the area below the line
         });
 
         const ctx = document.getElementById('soundChart').getContext('2d');
@@ -244,10 +242,8 @@
     async function updateChartAndTemperature() {
         await plotSoundData();
         await updateTemperatureDisplay();
-        //await fetchState();
         setTimeout(updateChartAndTemperature, 1000);
     }
-
     
 </script>
 <script>
