@@ -2,7 +2,7 @@
 This is a script that reads the temperature every 2 secodns and stores the result in /var/www/html/temperature_log.json. Previous files are deleted every time temperature.py is executed. The following configuration must be done to make temperature.py run at power up.
 >Make the script executable. Open the terminal and run the following command:
 
-chmod +x /home/pi/temperature.py
+chmod +x /home/ai4s/pisoundsensing/temperature.py
 
 >Create a .desktop file to run the script at startup. Open the terminal and run the following command to create and edit the file:
 
@@ -13,7 +13,7 @@ nano ~/.config/autostart/run_temperature.desktop
 [Desktop Entry]
 Type=Application
 Name=Run Temperature
-Exec=python3 /home/pi/temperature.py
+Exec=python3 /home/ai4s/pisoundsensing/temperature.py
 '''
 
 import json
