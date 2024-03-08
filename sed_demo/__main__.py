@@ -1,4 +1,22 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# Athor: Gabriel Bibbo
 
+"""
+-This code is a modification of the AI4S demo written by Andres Fernandez
+https://github.com/yinkalario/General-Purpose-Sound-Recognition-Demo
+
+-This version incorporates the storage of the detected tags in a .json 
+file, the sending of notifications by mail in case of detecting any specific 
+event.
+
+-This module is the main entry point to the app. It contains the specific class
+to run the app, and a way of feeding custom parameters through the CLI.
+
+-Usage example (ensure that python can ``import sed_demo``):
+
+python m sed_demo TOP_K=10 TABLE_FONTSIZE=25
+"""
 
 from threading import Thread
 import os
