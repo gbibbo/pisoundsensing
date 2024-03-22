@@ -37,16 +37,22 @@ Paper: https://arxiv.org/abs/2306.09106
 * Download the latest version of Raspberry Pi OS (64-bit) with desktop from the official website: [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/).
 
 #### 2. Download Imaging Software: 
-* Download and install the [Raspberry Pi Imager](https://www.raspberrypi.org/software/) software.
+* Download and install the [Raspberry Pi Imager](https://www.raspberrypi.org/software/) software (this following guide was made based on version 1.8.5 of the software).
 
 #### 3. Burn the Image to the microSD Card: 
 * Insert the microSD card into your computer using a card reader. 
 
-* Open the Raspberry Pi Imager. 
+* Open the Raspberry Pi Imager.
 
-* Select the operating system image you downloaded and the microSD card as the destination. 
+* Under "Raspberry Pi Device" you can select "No filtering" or your Raspberry Pi model which can be "Raspberry Pi 4" or "Raspberry Pi 5".
 
-* Click on "Write" and wait for the process to complete. 
+* Under "Operating System", press "CHOOSE OS", scroll down and select "Use custom", where you will be able to select the operating system image you downloaded in the previous steps.
+
+* Under "Storage" select the microSD card as the destination.
+
+* Click "Next" and select "NO" when asked if you want to apply the customization settings. 
+
+* An warning window will remind you that your data will be erased from the microSD card. Press "YES" if you wish to continue and wait for the process to complete. During the process, alerts may pop up indicating that you need to insert a new drive. Simply ignore these alerts until the Raspberry Pi Imager Write process is complete.
 
 #### 4. Verify the Burn: 
 
