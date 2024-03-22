@@ -124,34 +124,15 @@ Paper: https://arxiv.org/abs/2306.09106
 wget https://github.com/gbibbo/pisoundsensing/raw/main/setup.sh 
 ```
  
-
-#### 2. Move the File and Prepare for Execution: 
-
-* Move the downloaded file to the `home/ai4s` folder with the command 
-```bash
-mv setup.sh ~/ai4s/ 
-```
- 
-
-#### 3. Change to the directory where you moved the file: 
-```bash
-cd ~/ai4s/ 
-```
- 
-
-#### 4. Execute the Installation Script: 
-```bash
-chmod +x setup.sh 
-```
-#### 5. Start the installation by executing the script with bash: 
+#### 2. Start the installation by executing the script with bash: 
 ```bash
 bash setup.sh 
 ```
-#### 6. During the Process: 
+#### 3. During the Process: 
 
 * Stay attentive to the terminal. You will be asked to confirm the installation of some packages. When this happens, type `Y` and press `Enter` to continue. 
 
-#### 7. Wait for Automatic Reboot 
+#### 4. Wait for Automatic Reboot 
 
 * Once the installation is complete, the Raspberry Pi will automatically reboot. This step is crucial to ensure that all changes and updates are applied correctly. 
 
